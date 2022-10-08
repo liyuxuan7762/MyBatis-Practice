@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kuang.dao.UserMapper">
+    <!--namespace根据自己需要创建的的mapper的路径和名称填写-->
+    <select id="getAllUser" resultType="com.kuang.pojo.User">
+        select * from t_account;
+    </select>
+    <insert id="addUser" parameterType="com.kuang.pojo.User">
+        insert into t_account(id, username, pwd) values (#{id}, #{username}, #{pwd})
+    </insert>
+    <update id="updateUser" parameterType="com.kuang.pojo.User">
+        update t_account
+        set username = #{username}, pwd = #{pwd}
+        where id = #{id};
+    </update>
+    <delete id="deleteUserById" parameterType="int">
+        delete from t_account where id = #{id}
+    </delete>
+    <update id="updatePwd" parameterType="map">
+        update t_account
+        set pwd = #{pwd}
+        where id = #{id};
+    </update>
+    <select id="selectLike" parameterType="String" resultType="com.kuang.pojo.User">
+        select * from t_account where username like #{username}
+    </select>
+</mapper>

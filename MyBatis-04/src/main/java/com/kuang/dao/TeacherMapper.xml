@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kuang.dao.TeacherMapper">
+    <!--namespace根据自己需要创建的的mapper的路径和名称填写-->
+    <select id="getTeacherById" resultMap="TeacherMap">
+        select t.id tid, t.name tname, s.id sid, s.name sname, s.tid
+        from teacher t, student s
+        where t.id = s.tid and t.id = #{tid}
+    </select>
+    <resultMap id="TeacherMap" type="com.kuang.pojo.Teacher">
+        <result property="id" column="tid"></result>
+        <result property="name" column="tname"></result>
+        <collection property="students" ofType="com.kuang.pojo.Student">
+            <result property="id" column="sid"></result>
+            <result property="name" column="sname"></result>
+            <result property="tid" column="tid"></result>
+        </collection>
+    </resultMap>
+
+
+
+    <select id="getTeacherById2" resultMap="TeacherMap2" parameterType="int">
+        select id, name from teacher where id = #{tid}
+    </select>
+    <resultMap id="TeacherMap2" type="com.kuang.pojo.Teacher">
+        <result property="id" column="id"></result>
+        <result property="name" column="name"></result>
+        <collection property="students" column="id" ofType="com.kuang.pojo.Student" select="getStudent"></collection>
+    </resultMap>
+
+    <select id="getStudent" resultType="com.kuang.pojo.Student">
+        select * from student where tid = #{tid}
+    </select>
+</mapper>
